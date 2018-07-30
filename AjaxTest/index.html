@@ -9,13 +9,31 @@
 </head>
 <body>
 	<div class='main'>
-		<div class='select'>
-			<select>
-				<option selected value='a'>alphabetically</option>
-				<option value='r'>in reverse order</option>
+		<div>
+			<select id='sortSelect'>
+				<option selected value='name.last'>lastname &darr;</option>
+				<option value='-name.last'>lastname &uarr;</option>
+				<option value='name.first'>firstname &darr;</option>
+				<option value='-name.first'>firstname &uarr;</option>
+				<option value='gender'>gender &darr;</option>
+				<option value='-gender'>gender &uarr;</option>
 			</select>
 			<button id='load'>load</button>
 		</div>
 	</div>
+	<div id="wrap"></div>
+	<div id="popup-window">
+		<div class="in-one-row">
+			<div><a href="#close" id="close" class="close">X</a></div>
+			<div id='caption'></div>
+		</div>
+		<div class="in-one-row">
+			<div id="big-avatar"></div>
+			<div>
+				<ul id="details-list"></ul>
+			</div>
+		</div>
+	</div>
+</div>
 </body>
 </html>

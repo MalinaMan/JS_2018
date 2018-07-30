@@ -26,10 +26,67 @@
 	padding: 3px;
 }
 
-.users-avatar {
+.tr .users-avatar {
 	width: 70px;
 }
 
-.users-name {
+.tr .users-name {
 	font-size: 1.25em;
+	cursor: pointer;
+}
+
+.tr .users-name:hover {
+	font-weight: bold;
+	color: blue;
+}
+
+#wrap{
+	display: none;
+	opacity: 0.8;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	padding: 16px;
+	background-color: rgba(1, 1, 1, 0.725);
+	z-index: 100;
+	overflow: auto;
+}
+	
+#popup-window {
+	width: 430px;
+	height: 180px;
+	margin: 30px auto;
+	display: none;
+	background: #fff;
+	z-index: 200;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	padding: 16px;
+}
+
+.in-one-row {
+	display: flex;
+	margin: 10px 0;
+}
+
+.in-one-row > div {
+	display: block;
+	margin: 0;
+}
+
+ul {
+    list-style: none;
+    height: 100%;
+    margin: 5px 0;
+}
+
+#caption {
+	font-size: 1.25em;
+	flex: 1;
+	text-align: center;
 }
