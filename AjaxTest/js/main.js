@@ -2,14 +2,14 @@
   "use strict";
 
   var users;
-  let button = document.getElementById("load");
-  button.addEventListener('click', loadUsers);
-
+  
+  document.getElementById("load").addEventListener('click', loadUsers);
   document.getElementById('close').addEventListener('click', function() { show('none'); });
   document.getElementById('sortSelect').addEventListener('change', function() { processData(users); });
 
   function loadUsers() {
-    var xhr = new XMLHttpRequest();
+    let button = document.getElementById("load");
+    let xhr = new XMLHttpRequest();
     const URL_USERS_API = 'https://api.randomuser.me/1.0/?results=50&nat=gb,us&inc=gender,name,location,email,phone,picture';
 
     xhr.open('GET', URL_USERS_API, true);
@@ -27,9 +27,7 @@
           button.innerHTML = 'load';
           button.disabled = false;
           users = data.results;
-
           processData(users);
-          document.querySelector('.table').addEventListener('click', showDetailInfo, false);
         }
         else {
           alert("Format error: no properties name 'results'");
@@ -90,7 +88,7 @@
 
     users = sortData(users);
 
-    let oldChild = document.querySelector('.table');
+    let newElem, oldChild = document.querySelector('.table');
     let item = document.createElement("div");
 
     item.className = 'table';
@@ -106,6 +104,8 @@
     } else {
       mainNode.appendChild(item);
     }
+
+    item.addEventListener('click', showDetailInfo, false);
   }
 
   function showDetailInfo(event)
