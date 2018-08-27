@@ -3,6 +3,11 @@ body {
 	background-color: WhiteSmoke;
 }
 
+.primary {
+	width: 900px;
+	margin: 0 auto;
+}
+
 .header {
 	text-align: center;
 }
@@ -13,8 +18,58 @@ body {
 
 ul {
 	font-weight: bold;
+	list-style: none;
+	padding-left: 0;
+	border: 2px solid grey;
 }
 
 li {
-	margin: 7px 0;
+	border-bottom: 2px solid grey;
+}
+
+li:last-child {
+	border: none;
+}
+
+.panel-title a {
+	background: #D3D3D3;
+	color: black;
+	display: block;
+	padding: 10px 40px 10px 15px;
+	position: relative;
+	transition: 0.3s;
+}
+
+.panel-title a:hover {
+	background: gray;
+}
+
+.panel-title.in a {
+	background: #2F4F4F;
+}
+
+.panel-title a::after {
+	content: "\f107";
+	font-family: "FontAwesome";
+	position: absolute;
+	right: 15px;
+	transition: 0.3s;
+}
+
+.panel-title.in a::after {
+	transform: rotate(180deg);
+}
+
+.panel-title > span {
+	display: none;
+}
+
+.panel-info {
+	display: none;
+	padding-bottom: 20px;
+}
+
+.panel-info > p {
+	font-weight: normal;
+	padding: 0 5px;
 }
