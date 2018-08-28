@@ -37,7 +37,7 @@ li:last-child {
 	display: block;
 	padding: 10px 40px 10px 15px;
 	position: relative;
-	transition: 0.3s;
+	transition: 0.25s;
 }
 
 .panel-title a:hover {
@@ -53,7 +53,7 @@ li:last-child {
 	font-family: "FontAwesome";
 	position: absolute;
 	right: 15px;
-	transition: 0.3s;
+	transition: 0.25s;
 }
 
 .panel-title.in a::after {

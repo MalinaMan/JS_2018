@@ -19,6 +19,22 @@
     return (('response' in data) && (data.response.status === STATUS_SUCCESS));
   }
 
+
+  function removeAllChild(parent) {
+    while (parent.firstChild) {
+      parent.removeChild(parent.firstChild);
+    }
+  }
+
+
+  function sendAJAXrequest(url) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.send();
+    return xhr;
+  }
+
   
   function loadNews() {
     
@@ -26,16 +42,9 @@
     let button = $("#header__refresh__button");
     let wrapper = $('#wrapper');
 
-    while (wrapper.firstChild) {
-      wrapper.removeChild(wrapper.firstChild);
-    }
+    removeAllChild(wrapper);
 
-    let xhr = new XMLHttpRequest();
-
-    xhr.open('GET', URL_NEWS_API, true);
-    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-    xhr.send();
-
+    let xhr = sendAJAXrequest(URL_NEWS_API);
     xhr.onreadystatechange = function() {
       if (this.readyState != 4) return;
 
@@ -68,11 +77,7 @@
     }
     const URL_NEWS_API = spanElem.textContent + '?show-blocks=body&api-key=' + API_KEY;
 
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', URL_NEWS_API, true);
-    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-    xhr.send();
-
+    let xhr = sendAJAXrequest(URL_NEWS_API);
     xhr.onreadystatechange = function() {
       if (this.readyState != 4) return;
       if (xhr.status !== 200) {
@@ -140,19 +145,27 @@
   function addShortInfoBlock(elem, content) {
     let bodyBlocks = content.blocks.body;
     if (bodyBlocks.length) {
-      let item = document.createElement('p');
-      item.innerText = bodyBlocks[0].bodyTextSummary;
-      elem.appendChild(item);
-      return true;
+      let shortText = bodyBlocks[0].bodyTextSummary;
+      let elemShortText = document.createElement('p');
+      elemShortText.innerText = shortText.slice(0, shortText.indexOf(' ', 300));
+      elem.appendChild(elemShortText);
+
+      let elemLinkNews = document.createElement('a');
+      elemLinkNews.href = content.webUrl;
+      elemLinkNews.appendChild(document.createTextNode('Read full news'));
+      elemLinkNews.setAttribute('target', '_blank');
+      return elem.appendChild(elemLinkNews);
     }
 
     return false;
   }
 
+
   function slidePanel(elem) {
     $(elem).toggleClass('in').next().slideToggle();
     $('.panel-title').not(elem).removeClass('in').next().slideUp();
   }
+
 
   function expandUnitNews() {
     let elemInfoBlock = this.nextElementSibling;
