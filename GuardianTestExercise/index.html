@@ -13,10 +13,17 @@
 	<div class="primary">
 		<div class="header">
 			<h1>The Guardian News</h1>
-			<button id="header__refresh__button">Refresh</button>
+			<button class="shadow_button" id="header__refresh__button">Refresh</button>
 		</div>
 		<div class="main">
 			<div id="wrapper">
+			</div>
+		</div>
+		<div class="footer">
+			<div class="paginator">
+				<div><button class="shadow_button page_change" id="page_previous">&lt; Previous Page</button></div>
+				<div><input type="number" id="cur_page_number" min="1" value="1" step="1"><b></b></div>
+				<div><button class="shadow_button page_change" id="page_next">Next Page &gt;</button></div>
 			</div>
 		</div>
 	</div>

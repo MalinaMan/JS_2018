@@ -12,6 +12,32 @@ body {
 	text-align: center;
 }
 
+.header h1 {
+	margin-bottom: 10px;
+}
+
+.shadow_button {
+	width: 110px;
+	height: 30px;
+	color: #424242;
+	outline: none;
+	padding: 0 5px;
+	margin: 3px auto 5px;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	box-shadow: 0 3px 5px #ccc;
+}
+
+.shadow_button:hover:enabled {
+	margin: 5px auto 3px;
+	box-shadow: 0 0 1px #eee;
+}
+
+.shadow_button:not(:enabled) {
+	color: #D8D8D8;
+}
+
 .error-message {
 	color: red;
 }
@@ -71,5 +97,30 @@ li:last-child {
 
 .panel-info > p {
 	font-weight: normal;
+}
+
+.panel-info > * {
 	padding: 0 5px;
+}
+
+.paginator {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.paginator * {
+	display: none;
+}
+
+#cur_page_number {
+	width: 60px;
+	text-align: right;
+	margin-right: 20px;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
 }

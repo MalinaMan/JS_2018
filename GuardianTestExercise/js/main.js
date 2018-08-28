@@ -5,7 +5,8 @@
   const STATUS_SUCCESS = 'ok';
 
   $("#header__refresh__button").click(loadNews);
-
+  $(".page_change").click(changePage);
+  $("#cur_page_number").change(changePage);
 
   function addErrorMessageNode(parent, errorText) {
     let errorElem = document.createElement('h3');
@@ -35,12 +36,23 @@
     return xhr;
   }
 
+
+  function actionInitPaginator(maxPages) {
+    $('.paginator *').show();
+    let elemCurPage = $('#cur_page_number');
+    elemCurPage.val(1);
+    elemCurPage.attr({"value": 1, "max": maxPages});
+    elemCurPage.next().text(`of ${maxPages} pages`);
+
+    refreshAvailabilityButton(1, maxPages);
+  }
+
   
   function loadNews() {
     
     const URL_NEWS_API = 'http://content.guardianapis.com/search?api-key=' + API_KEY;
     let button = $("#header__refresh__button");
-    let wrapper = $('#wrapper');
+    let wrapper = document.getElementById('wrapper');
 
     removeAllChild(wrapper);
 
@@ -55,6 +67,8 @@
         if (validationRequest(data)) {
           button.innerHTML = 'Refresh';
           button.disabled = false;
+          actionInitPaginator(data.response.pages);
+
           let news = data.response.results;
           processData(news);
         }
@@ -87,6 +101,34 @@
       let data = JSON.parse(xhr.responseText);
       if (validationRequest(data) && addShortInfoBlock(elem.nextElementSibling, data.response.content)) {
         slidePanel(elem);
+      }
+    }
+
+  }
+
+
+  function loadNewsPage(page) {
+    
+    const URL_NEWS_API = `http://content.guardianapis.com/search?page=${page}&api-key=${API_KEY}`;
+    let wrapper = document.getElementById('wrapper');
+
+    removeAllChild(wrapper);
+
+    let xhr = sendAJAXrequest(URL_NEWS_API);
+    xhr.onreadystatechange = function() {
+      if (this.readyState != 4) return;
+
+      if (xhr.status != 200) {
+        addErrorMessageNode(wrapper, "Error getting data = " + xhr.status + ': ' + xhr.statusText);
+      } else {
+        let data = JSON.parse(xhr.responseText);
+        if (validationRequest(data)) {
+          let news = data.response.results;
+          processData(news);
+        }
+        else {
+          addErrorMessageNode(wrapper, "Format error: no properties name 'response'");
+        }
       }
     }
 
@@ -158,6 +200,48 @@
     }
 
     return false;
+  }
+
+
+  function refreshAvailabilityButton(nextPage, maxPage) {
+    let statePrev = true, stateNext = true;
+    if (nextPage <= 1) {
+      statePrev = false;
+    }
+    if (nextPage >= maxPage) {
+      stateNext = false;
+    }
+    $('#page_previous').attr('disabled', !statePrev);
+    $('#page_next').attr('disabled', !stateNext);
+  }
+
+
+  function changePage(e) {
+    let elemInputCurPage = $('#cur_page_number');
+    let curPage = elemInputCurPage.val();
+    let maxPage = +elemInputCurPage.attr('max');
+    let nextPage = +curPage;
+
+    let elemTarget = $(e.target);
+    let targetId = elemTarget.attr('id');
+    if (targetId === 'page_next') {
+      if (nextPage === maxPage) {
+        return;
+      }
+      nextPage++;
+    } else if (targetId === 'page_previous') {
+      if (nextPage === 1) {
+        return;
+      }
+      nextPage--;
+    } else if (targetId === 'cur_page_number') {
+      if (nextPage < 1) nextPage = 1;
+      else if (nextPage > maxPage) nextPage = maxPage;
+    }
+
+    elemInputCurPage.val(nextPage);
+    refreshAvailabilityButton(nextPage, maxPage);
+    loadNewsPage(nextPage);
   }
 
 
