@@ -1,6 +1,7 @@
 (function () {
   "use strict";
 
+  const URL = 'http://content.guardianapis.com/search';
   const API_KEY = 'bbcec02b-3981-47d2-93ae-64af9c164117';
   const STATUS_SUCCESS = 'ok';
 
@@ -41,7 +42,7 @@
     $('.paginator *').show();
     let elemCurPage = $('#cur_page_number');
     elemCurPage.val(1);
-    elemCurPage.attr({"value": 1, "max": maxPages});
+    elemCurPage.attr({'value': 1, 'max': maxPages});
     elemCurPage.next().text(`of ${maxPages} pages`);
 
     refreshAvailabilityButton(1, maxPages);
@@ -50,7 +51,7 @@
   
   function loadNews() {
     
-    const URL_NEWS_API = 'http://content.guardianapis.com/search?api-key=' + API_KEY;
+    const URL_NEWS_API = URL + '?api-key=' + API_KEY;
     let button = $("#header__refresh__button");
     let wrapper = document.getElementById('wrapper');
 
@@ -94,9 +95,7 @@
     let xhr = sendAJAXrequest(URL_NEWS_API);
     xhr.onreadystatechange = function() {
       if (this.readyState != 4) return;
-      if (xhr.status !== 200) {
-        return;
-      }
+      if (xhr.status !== 200) return;
 
       let data = JSON.parse(xhr.responseText);
       if (validationRequest(data) && addShortInfoBlock(elem.nextElementSibling, data.response.content)) {
@@ -109,7 +108,7 @@
 
   function loadNewsPage(page) {
     
-    const URL_NEWS_API = `http://content.guardianapis.com/search?page=${page}&api-key=${API_KEY}`;
+    const URL_NEWS_API = `${URL}?page=${page}&api-key=${API_KEY}`;
     let wrapper = document.getElementById('wrapper');
 
     removeAllChild(wrapper);
@@ -204,13 +203,8 @@
 
 
   function refreshAvailabilityButton(nextPage, maxPage) {
-    let statePrev = true, stateNext = true;
-    if (nextPage <= 1) {
-      statePrev = false;
-    }
-    if (nextPage >= maxPage) {
-      stateNext = false;
-    }
+    let statePrev = (nextPage > 1);
+    let stateNext = (nextPage < maxPage);
     $('#page_previous').attr('disabled', !statePrev);
     $('#page_next').attr('disabled', !stateNext);
   }
